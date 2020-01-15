@@ -39,9 +39,12 @@ for product in all_product_containers:
     price_final_p = product.find("p", {"class":"pl-list-price"})
     price_final = price_final_p.text
 
-    if not(price_final[0:1] == "$"):
-        index_sym = price_final.index("$")
-        price_final = price_final[index_sym:]
+    if price_final[0:1] != "$":
+        if price_final == "TBD":
+            price_final = "0.00"
+        else:
+            index_sym = price_final.index("$")
+            price_final = price_final[index_sym:]
 
     if product.find("span", {"class":"price-was"}):
         price_original_span = product.find("span", {"class":"price-was"})
@@ -70,7 +73,7 @@ for product in all_product_containers:
     print("Bandwidth: " + details[4])
     print("Price: " + price_final)
     
-    f.write(name.replace(",", "|") + "," + 
+    f.write(name.replace(",", " |") + "," + 
             price_original + "," +
             discount + "," + 
             price_final + "," +
